@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ 作者 ： 饭票两角
+  ~
+  ~ 最后编辑时间 ： 17-2-19 下午11:04
+  -->
+
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorRed"> #800000</color>
+    <color name="accent_material_light_1">#b9f3ee</color>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ 作者 ： 饭票两角
+  ~
+  ~ 最后编辑时间 ： 17-2-18 下午4:32
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:id="@+id/item_icon2"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:text="TextView"
+        android:textSize="20dp"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:id="@+id/item_tv2" />
+</LinearLayout>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2017.
+  ~
+  ~ 作者 ： 饭票两角
+  ~
+  ~ 最后编辑时间 ： 17-3-9 上午10:31
+  -->
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.byw.vpdemo">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:logo="@mipmap/launcher">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SettingActivity"
+            android:parentActivityName=".MainActivity"
+            android:label="设置">
+
+        </activity>
+        <activity
+            android:name=".CableCalculateActivity"
+            android:label="线缆压降计算">
+
+        </activity>
+        <activity
+            android:name=".CableQueryActivity"
+            android:label="美标线线号查询">
+
+        </activity>
+    </application>
+
+</manifest>
