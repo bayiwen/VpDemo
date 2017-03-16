@@ -8,6 +8,7 @@
 
 package com.example.byw.vpdemo;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,8 +19,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-
-import android.util.Log;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -33,6 +32,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     protected static boolean quitflag = true; // 退出确认标志
     protected static boolean gestureflag = true;// 使用手势返回标志
     protected static SharedPreferences spf;
+    protected static Toast mToast;
 
 
     @Override
@@ -183,17 +184,17 @@ public class MainActivity extends AppCompatActivity {
 
         LayoutInflater inflater = getLayoutInflater();
         // 将页面xml转化为view对象，并设置各个页面显示内容
-        page1 = inflater.inflate(R.layout.layout_list1, null);
+        page1 = inflater.inflate(R.layout.layout_list1, viewPager, false);
         ListView lv1 = (ListView) page1.findViewById(R.id.lv1);
         lv1.setAdapter(simplead1);
         lv1.setOnItemClickListener(new page1ItemClickListener());
 
-        page2 = inflater.inflate(R.layout.layout_list2, null);
+        page2 = inflater.inflate(R.layout.layout_list2, viewPager, false);
         ListView lv2 = (ListView) page2.findViewById(R.id.lv2);
         lv2.setAdapter(simplead2);
         lv2.setOnItemClickListener(new page2ItemClickListener());
 
-        page3 = inflater.inflate(R.layout.layout_page3, null);
+        page3 = inflater.inflate(R.layout.layout_page3, viewPager, false);
     }
 
     /**
@@ -284,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
                 case "tab3": i = 2;
                     break;
             }
+            // 防止重复调用
             if(viewPager.getCurrentItem() != i) {
             viewPager.setCurrentItem(i);
 //            Log.d("FPLJ","设置viewpage"+viewPager.getCurrentItem());
@@ -344,5 +346,30 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    /**
+     * 自义定静态Toast显示方法，可用于整个应用
+     * @param mContext 要显示的活动
+     * @param string 要显示的内容
+     */
+    protected static void showToast(Context mContext, String string){
+        if(mToast == null){
+            mToast = Toast.makeText(mContext, string, Toast.LENGTH_SHORT);
+        }
+        else{
+            mToast.setText(string);
+            mToast.setDuration(Toast.LENGTH_SHORT);
+        }
+        mToast.show();
+    }
+
+    /**
+     * 自定义静态Toast阻止方法
+     *
+     */
+    protected static void cancelToast(){
+        if(mToast != null) mToast.cancel();
+        mToast = null;
     }
 }

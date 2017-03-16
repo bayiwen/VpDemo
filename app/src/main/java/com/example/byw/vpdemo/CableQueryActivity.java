@@ -42,6 +42,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static android.view.KeyEvent.KEYCODE_BACK;
 import static com.example.byw.vpdemo.MainActivity.gestureflag;
 
 
@@ -61,7 +62,6 @@ public class CableQueryActivity extends AppCompatActivity {
     private TextView tv_resistance;
     private TextView tv_current;
     private TextView tv_MAXcurrent;
-    private String condition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,16 +122,28 @@ public class CableQueryActivity extends AppCompatActivity {
     }
 
     /**
-     * 将此活动的手势动作传入动作管理器
-     * @param event
-     * @return
+     * 重写返回键按下处理，如果有Toast，返回键按下后不再显示
+     * @param keyCode 按键值
+     * @param event 事件
+     * @return 如果是返回键，处理后不再分发，不是返回键，继续分发
      */
     @Override
-    public boolean onTouchEvent(MotionEvent event){
-        if(gestureflag){
-        return  gestureDetector.onTouchEvent(event);
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode == KEYCODE_BACK){
+            super.onKeyDown(keyCode, event);
+            MainActivity.cancelToast();
+            return true;
         }
-        else return true;
+        else return false;
+    }
+    /**
+     * 将此活动的手势动作传入动作管理器
+     * @param event 发生的动作事件
+     * @return true，处理完毕不再传出，false 未处理完毕继续分发
+     */
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return !gestureflag || gestureDetector.onTouchEvent(event);
     }
     /**
      * 重新onDestroy方法，程序终止后，关闭数据库
@@ -184,12 +196,12 @@ public class CableQueryActivity extends AppCompatActivity {
         // 清除EditText焦点
         getCurrentFocus().clearFocus();
         // 获取查询条件 即线号
-        condition = et_AWG.getText().toString().trim();
+        String condition = et_AWG.getText().toString().trim();
         // 判断输入参数是否为空，为空提示
         if(TextUtils.isEmpty(condition)) {
 //                    Log.d("FPLJ", "查询参数为空");
-            Toast.makeText(CableQueryActivity.this, "参数不能为空", Toast.LENGTH_SHORT)
-                    .show();
+            MainActivity.showToast(CableQueryActivity.this, "参数不能为空");
+//            Toast.makeText(CableQueryActivity.this, "参数不能为空", Toast.LENGTH_SHORT).show();
         }
         else {
             Cursor c = MySQLiteDB.rawQuery("select * from cabledata where AWG=?",
@@ -208,8 +220,8 @@ public class CableQueryActivity extends AppCompatActivity {
             }
             else {
                 // 无相关结果，提示用户
-                Toast.makeText(CableQueryActivity.this, "无此数据，请检查输入值", Toast.LENGTH_SHORT)
-                        .show();
+                MainActivity.showToast(CableQueryActivity.this, "无此数据，请检查输入值");
+//                Toast.makeText(CableQueryActivity.this, "无此数据，请检查输入值", Toast.LENGTH_SHORT).show();
             }
             // 关闭游标，释放资源
             c.close();
@@ -266,10 +278,7 @@ public class CableQueryActivity extends AppCompatActivity {
     void importdata(SQLiteOpenHelper sqLiteOpenHelper) throws IOException {
         // 在databases文件夹（Android默认数据库路径）下面新建空数据库文件
         File file = new File(DB_PATH + DB_NAME);
-        if(file.exists()){
-//            Log.d("FPLJ", "已有数据库，不再重复导入");
-                    // do nothing
-        }else{
+        if( !file.exists()){
             // 建立可写入空白数据库，待导入）
             sqLiteOpenHelper.getReadableDatabase();
             Log.d("FPLJ", "导入数据库");
@@ -327,6 +336,7 @@ public class CableQueryActivity extends AppCompatActivity {
 
 //            Log.d("FPLJ", "开始于" + e1.getX() + "结束于" + e2.getX());
             if((25 > e1.getX())&(e2.getX() > 280)){
+                MainActivity.cancelToast();
                 finish();
 //                Log.d("FPLJ","finish 方法");
             }

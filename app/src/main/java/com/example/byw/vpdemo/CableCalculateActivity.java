@@ -29,7 +29,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.math.BigDecimal;
 
+import static android.view.KeyEvent.KEYCODE_BACK;
+import static android.view.KeyEvent.KEYCODE_ENTER;
 import static com.example.byw.vpdemo.MainActivity.gestureflag;
+import static com.example.byw.vpdemo.MainActivity.mToast;
 
 public class CableCalculateActivity extends AppCompatActivity {
 
@@ -61,7 +64,7 @@ public class CableCalculateActivity extends AppCompatActivity {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-                if(keyCode == event.KEYCODE_ENTER) {
+                if(keyCode == KEYCODE_ENTER) {
 
                     // 获取输入法管理对象
                     InputMethodManager imm = (InputMethodManager)
@@ -127,12 +130,9 @@ public class CableCalculateActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event){
-//        Log.d("FPLJ", "传入动作");
-        if(gestureflag){
-            return  gestureDetector.onTouchEvent(event);
-        }
-        else return true;
+    public boolean onTouchEvent(MotionEvent event) {
+        // 如果不允许手势，则拦截手势，不再传入
+        return !gestureflag || gestureDetector.onTouchEvent(event);
     }
 
     public boolean onOptionsItemSelected(MenuItem item)
@@ -142,6 +142,21 @@ public class CableCalculateActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * 重写返回键按下处理，如果有Toast，返回键按下后不再显示
+     * @param keyCode 按键值
+     * @param event 事件
+     * @return 如果是返回键，消费事件，并不再向下传递
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event){
+        if(keyCode == KEYCODE_BACK){
+            super.onKeyDown(keyCode, event);
+            MainActivity.cancelToast();
+            return true;
+        }
+        else return false;
+    }
 
     /**
      *  压降计算函数
@@ -160,11 +175,13 @@ public class CableCalculateActivity extends AppCompatActivity {
         if(TextUtils.isEmpty(et_section.getText())
                 |TextUtils.isEmpty(et_cd.getText())
                 |TextUtils.isEmpty(et_cl.getText()))
-            Toast.makeText(this, "输入不能为空，请重新输入",Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "输入不能为空，请重新输入",Toast.LENGTH_SHORT).show();
+        MainActivity.showToast(CableCalculateActivity.this, "输入不能为空，请重新输入");
         else if(0 >= Float.parseFloat(et_section.getText().toString().trim())
                 |0 >= Float.parseFloat(et_cl.getText().toString().trim())
                 |0 >= Float.parseFloat(et_cd.getText().toString().trim()))
-            Toast.makeText(this, "输入参数有误，请重新输入",Toast.LENGTH_SHORT).show();
+            MainActivity.showToast(CableCalculateActivity.this, "输入参数有误，请重新输入");
+//            Toast.makeText(this, "输入参数有误，请重新输入",Toast.LENGTH_SHORT).show();
 
         else {
             //根据材质不同，确定电阻率
@@ -233,6 +250,7 @@ public class CableCalculateActivity extends AppCompatActivity {
 //            Log.d("FPLJ", "开始于" + e1.getX() + "结束于" + e2.getX());
             if((25 > e1.getX())&(e2.getX() > 280)){
                 finish();
+                MainActivity.cancelToast();
             }
             return false;
         }
