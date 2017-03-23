@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2017.
   ~
   ~ 作者 ： 饭票两角
   ~
   ~ 最后编辑时间 ： 17-3-9 上午10:31
-  -->
-
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.byw.vpdemo">
 
@@ -27,8 +25,8 @@
         </activity>
         <activity
             android:name=".SettingActivity"
-            android:parentActivityName=".MainActivity"
-            android:label="设置">
+            android:label="设置"
+            android:parentActivityName=".MainActivity">
 
         </activity>
         <activity
@@ -39,6 +37,17 @@
         <activity
             android:name=".CableQueryActivity"
             android:label="美标线线号查询">
+
+        </activity>
+        <activity
+            android:name=".R5Activity"
+            android:label="五色环电阻计算">
+
+        </activity>
+
+        <activity
+            android:name=".R4Activity"
+            android:label="四色环电阻计算">
 
         </activity>
     </application>

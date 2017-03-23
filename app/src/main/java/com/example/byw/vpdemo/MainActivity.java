@@ -124,9 +124,9 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         layoutInflater.inflate(R.layout.layout_empty, tabHost.getTabContentView());
         // 添加标签和对应空xml到tabcontent中
-        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("电缆计算")
+        tabHost.addTab(tabHost.newTabSpec("tab1").setIndicator("电气计算")
                 .setContent(R.id.layout_empty));
-        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("电缆查询")
+        tabHost.addTab(tabHost.newTabSpec("tab2").setIndicator("电气查询")
                 .setContent(R.id.layout_empty));
         tabHost.addTab(tabHost.newTabSpec("tab3").setIndicator("关于")
                 .setContent(R.id.layout_empty));
@@ -151,9 +151,9 @@ public class MainActivity extends AppCompatActivity {
      */
     private void initPage(){
 
-        String[] data1 = { "线缆压降计算", "后续添加"};
-        String[] data2 = { "美标线缆查询", "后续添加"};
-        int[] imageId1 = {R.drawable.cable, R.drawable.cal};
+        String[] data1 = { "线缆压降计算", "四色环电阻计算", "五色环电阻计算", "后续添加"};
+        String[] data2 = { "美标线缆查询","后续添加"};
+        int[] imageId1 = {R.drawable.cable, R.drawable.r4, R.drawable.r5, R.drawable.cal};
         int[] imageId2 = {R.drawable.awg, R.drawable.search};
 
         List<Map<String, Object>> listitems1 = new ArrayList<>();
@@ -327,7 +327,10 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, CableCalculateActivity.class));
                     break;
                 case 1 :
-                    // TODO: 2017/3/13 待添加新功能
+                    startActivity(new Intent(MainActivity.this, R4Activity.class));
+                    break;
+                case 2:
+                    startActivity(new Intent(MainActivity.this, R5Activity.class));
                     break;
             }
         }

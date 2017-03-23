@@ -134,7 +134,7 @@ public class CableCalculateActivity extends AppCompatActivity {
         // 如果不允许手势，则拦截手势，不再传入
         return !gestureflag || gestureDetector.onTouchEvent(event);
     }
-
+    @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
         // 如果检测为单击返回按钮，则返回上一级

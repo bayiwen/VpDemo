@@ -9,9 +9,7 @@
 <resources>
     <string name="app_name">电气计算查询</string>
     <string name="cable_area"><html>mm<sup><font size="15">2</font></sup></html></string>
-    <string name="about">
-        制作：饭票两角\n邮箱：50600726@QQ.com
-    </string>
+    <string name="about">制作：饭票两角\n邮箱：50600726@qq.com</string>
     <string name="blank">    </string>
 
     <string-array name="cabletype">
