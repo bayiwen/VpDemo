@@ -40,6 +40,12 @@
 
         </activity>
         <activity
+            android:name=".SmtrActivity"
+            android:label="贴片电阻阻值查询">
+
+        </activity>
+
+        <activity
             android:name=".R5Activity"
             android:label="五色环电阻计算">
 

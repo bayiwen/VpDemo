@@ -85,7 +85,7 @@ public class SettingActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                if(SettingActivity.this.deleteDatabase("cable.db")){
+                if(SettingActivity.this.deleteDatabase("cable.db")&&SettingActivity.this.deleteDatabase("smtr.db")){
 //                    Toast.makeText(SettingActivity.this, "删除数据库成功", Toast.LENGTH_SHORT).show();
                     MainActivity.showToast(SettingActivity.this, "删除数据库成功");
 //                    Log.d("FPLJ", "删除cable数据库成功");

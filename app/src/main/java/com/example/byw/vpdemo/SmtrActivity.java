@@ -46,27 +46,23 @@ import static android.view.KeyEvent.KEYCODE_BACK;
 import static com.example.byw.vpdemo.MainActivity.gestureflag;
 
 
-public class CableQueryActivity extends AppCompatActivity {
+public class SmtrActivity extends AppCompatActivity {
 
     private static final String DB_PATH = "/data/data/com.example.byw.vpdemo/databases/";
-    private static final String DB_NAME = "cable.db";
+    private static final String DB_NAME = "smtr.db";
     private static final int VERSION = 1;
 
     private SQLiteDatabase MySQLiteDB = null;
     private GestureDetector gestureDetector;
 
-    private EditText et_AWG;
-    private TextView tv_AWG;
-    private TextView tv_diameter;
-    private TextView tv_area;
-    private TextView tv_resistance;
-    private TextView tv_current;
-    private TextView tv_MAXcurrent;
+    private EditText et_code;
+    private TextView tv_code;
+    private TextView tv_smtr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cable_query);
+        setContentView(R.layout.activity_smtr);
 
         // 设置Actionbar左上角返回按钮
         ActionBar actionBar = getSupportActionBar();
@@ -75,15 +71,15 @@ public class CableQueryActivity extends AppCompatActivity {
         }
 
         // 实例化一个自定义数据库管理对象，对数据库操作。传入当前活动类、数据库名称及版本号
-        final MySQLiteOpenHelp dbhelp = new MySQLiteOpenHelp(this, DB_NAME, null, VERSION);
-        InitDatabase(dbhelp);
+        final MySQLiteOpenHelp dbhelp_smtr = new MySQLiteOpenHelp(this, DB_NAME, null, VERSION);
+        InitDatabase(dbhelp_smtr);
 
-        gestureDetector = new GestureDetector(this, new CableQueryActivity.MyGestureListener());
+        gestureDetector = new GestureDetector(this, new SmtrActivity.MyGestureListener());
 
         // 定义查询条件
-        et_AWG = (EditText)findViewById(R.id.et_AWG);
+        et_code = (EditText)findViewById(R.id.et_code);
         // 绑定按键监听，监听回车键
-        et_AWG.setOnKeyListener(new View.OnKeyListener() {
+        et_code.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
@@ -94,19 +90,12 @@ public class CableQueryActivity extends AppCompatActivity {
                 else return false;
             }
         });
+
         // 定义查询结果
-        tv_AWG = (TextView)findViewById(R.id.tv_AWG);
-        tv_AWG.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        tv_diameter = (TextView)findViewById(R.id.tv_diameter);
-        tv_diameter.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        tv_area = (TextView)findViewById(R.id.tv_area);
-        tv_area.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        tv_resistance = (TextView)findViewById(R.id.tv_resistance);
-        tv_resistance.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        tv_current = (TextView)findViewById(R.id.tv_current);
-        tv_current.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        tv_MAXcurrent = (TextView)findViewById(R.id.tv_MAXcurrent);
-        tv_MAXcurrent.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tv_code = (TextView)findViewById(R.id.tv_code);
+        tv_code.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tv_smtr = (TextView)findViewById(R.id.tv_smtr);
+        tv_smtr.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 
         // 为查询按钮设置单击监听
         Button btn_query = (Button)findViewById(R.id.btn_query);
@@ -190,37 +179,33 @@ public class CableQueryActivity extends AppCompatActivity {
 
         // 获取输入法管理对象
         InputMethodManager imm = (InputMethodManager)
-                CableQueryActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                SmtrActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
         // 隐藏输入法
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         // 清除EditText焦点
         getCurrentFocus().clearFocus();
         // 获取查询条件 即线号
-        String condition = et_AWG.getText().toString().trim();
+        String condition = et_code.getText().toString().trim();
         // 判断输入参数是否为空，为空提示
         if(TextUtils.isEmpty(condition)) {
 //                    Log.d("FPLJ", "查询参数为空");
-            MainActivity.showToast(CableQueryActivity.this, "参数不能为空");
+            MainActivity.showToast(SmtrActivity.this, "参数不能为空");
 //            Toast.makeText(CableQueryActivity.this, "参数不能为空", Toast.LENGTH_SHORT).show();
         }
         else {
-            Cursor c = MySQLiteDB.rawQuery("select * from cabledata where AWG=?",
+            Cursor c = MySQLiteDB.rawQuery("select * from smtr where code=?",
                     new String[]{condition});
             // TODO: 2017/3/11 此处对数据库损坏情况未做异常处理
             c.moveToFirst();
             Log.d("FPLJ","输出查询结果");
             if(c.getCount() > 0){
                 // 将结果显示在屏幕上
-                tv_AWG.setText(c.getString(c.getColumnIndex("AWG")));
-                tv_diameter.setText(c.getString(c.getColumnIndex("diameter")));
-                tv_area.setText(c.getString(c.getColumnIndex("area")));
-                tv_resistance.setText(c.getString(c.getColumnIndex("resistance")));
-                tv_current.setText(c.getString(c.getColumnIndex("current")));
-                tv_MAXcurrent.setText(c.getString(c.getColumnIndex("MAXcurrent")));
+                tv_code.setText(c.getString(c.getColumnIndex("code")));
+                tv_smtr.setText(c.getString(c.getColumnIndex("resistance")));
             }
             else {
                 // 无相关结果，提示用户
-                MainActivity.showToast(CableQueryActivity.this, "无此数据，请检查输入值");
+                MainActivity.showToast(SmtrActivity.this, "无此数据，请检查输入值");
 //                Toast.makeText(CableQueryActivity.this, "无此数据，请检查输入值", Toast.LENGTH_SHORT).show();
             }
             // 关闭游标，释放资源
@@ -283,7 +268,7 @@ public class CableQueryActivity extends AppCompatActivity {
             sqLiteOpenHelper.getReadableDatabase();
             Log.d("FPLJ", "导入数据库");
             // 利用openRawResource方法返回raw资源中的数据流
-            InputStream myInput = this.getResources().openRawResource(R.raw.cable);
+            InputStream myInput = this.getResources().openRawResource(R.raw.smtr);
             // 新建输出流，将原建空数据库文件绑定至此输出流
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             // 新建buff缓存区，大小和输入文件大小一致

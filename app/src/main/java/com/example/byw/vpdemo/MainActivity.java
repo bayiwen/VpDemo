@@ -152,9 +152,9 @@ public class MainActivity extends AppCompatActivity {
     private void initPage(){
 
         String[] data1 = { "线缆压降计算", "四色环电阻计算", "五色环电阻计算", "后续添加"};
-        String[] data2 = { "美标线缆查询","后续添加"};
+        String[] data2 = { "美标线缆信息查询","贴片电阻阻值查询","后续添加"};
         int[] imageId1 = {R.drawable.cable, R.drawable.r4, R.drawable.r5, R.drawable.cal};
-        int[] imageId2 = {R.drawable.awg, R.drawable.search};
+        int[] imageId2 = {R.drawable.awg, R.drawable.smtr, R.drawable.search};
 
         List<Map<String, Object>> listitems1 = new ArrayList<>();
         for (int i = 0; i < data1.length; i++) {
@@ -345,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, CableQueryActivity.class));
                     break;
                 case 1:
-                    // TODO: 2017/3/13 待添加新功能
+                    startActivity(new Intent(MainActivity.this, SmtrActivity.class));
                     break;
             }
         }

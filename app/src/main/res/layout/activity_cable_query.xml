@@ -46,7 +46,7 @@
         android:layout_marginTop="8dp" />
 
     <Button
-        android:text="查询数据库"
+        android:text="查询"
         android:textSize="24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
         tools:layout_constraintTop_creator="1"
         android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/et_AWG"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="32dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="16dp" />
 
